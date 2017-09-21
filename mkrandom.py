@@ -20,8 +20,9 @@ def gaussian(low, high, mu, sigma):
 
 
 def polygon(settings):
-    x = random.random() * settings['width']
-    y = random.random() * settings['height']
+    width, height = settings['width'], settings['height']
+    x = random.random() * width
+    y = random.random() * height
     origo = x, y
 
     max_radius = math.sqrt(settings['width']**2 + settings['height']**2)
@@ -31,8 +32,8 @@ def polygon(settings):
     while angle < 2*math.pi:
         angle += gaussian(0, 2*math.pi, *shape['angular-velocity'])
         r = gaussian(0, max_radius, *shape['radius'])
-        x = origo[0] + r*math.cos(angle)
-        y = origo[1] - r*math.sin(angle)
+        x = min(max(origo[0] + r*math.cos(angle), 0), width)
+        y = min(max(origo[1] - r*math.sin(angle), 0), height)
         points.append('{},{}'.format(x, y))
     
     color = settings['color']
@@ -72,7 +73,7 @@ def create(filename, polygons, settings):
     output.write('</svg>\n')
 
 def main():
-    create('test.svg', 100, {
+    create('background.svg', 333, {
         'width': 297,
         'height': 420,
         'background': '#ffffff',
