@@ -73,8 +73,8 @@ def create(filename, polygons, settings):
     output.write('</svg>\n')
 
 def main():
-    create('background.svg', 333, {
-        'width': 297,
+    settings = {
+        'width': 210,
         'height': 420,
         'background': '#ffffff',
         'color': {
@@ -84,14 +84,16 @@ def main():
             'opacity': (90, 10)
         },
         'shape': {
-            'radius': (40, 70),
+            'radius': (50, 70), #40
             'angular-velocity': (.2, 1),
         },
         'contrast-overlay-opacity': (50, 40),
-        #'contrast-zone': lambda point: 20 < point[0] < 277 and 250 < point[1] < 400,
-        'contrast-zone': lambda point: False,
-    })
-
+        'contrast-zone': lambda point: 20 < point[0] < 277 and 250 < point[1] < 400,
+        #'contrast-zone': lambda point: False,
+        #'contrast-zone': lambda point: point[1] > 210,
+    }
+    for i in range(70, 80):
+        create('test{}.svg'.format(i), 100, settings)
 
 if __name__ == '__main__':
     try:
