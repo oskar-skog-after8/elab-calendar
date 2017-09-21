@@ -37,7 +37,7 @@ def polygon(settings):
     
     color = settings['color']
     color_s = "hsl({}, {}%, {}%)".format(
-        gaussian(0, 360, *color['hue']),
+        gaussian(-180, 540, *color['hue']) % 360,
         gaussian(0, 100, *color['saturation']),
         gaussian(0, 100, *color['value'])
     )
@@ -72,25 +72,29 @@ def create(filename, polygons, settings):
     output.write('</svg>\n')
 
 def main():
-    create('test.svg', 1000, {
+    create('test.svg', 100, {
         'width': 297,
         'height': 420,
         'background': '#ffffff',
         'color': {
             'hue': (45, 50),
-            'saturation': (80, 15),
+            'saturation': (70, 20),
             'value': (33, 25),
             'opacity': (90, 10)
         },
         'shape': {
-            'radius': (50, 60),
+            'radius': (40, 70),
             'angular-velocity': (.2, 1),
         },
-        'contrast-overlay-opacity': (60, 50),
-        'contrast-zone': lambda point: 20 < point[0] < 277 and 250 < point[1] < 400,
+        'contrast-overlay-opacity': (50, 40),
+        #'contrast-zone': lambda point: 20 < point[0] < 277 and 250 < point[1] < 400,
+        'contrast-zone': lambda point: False,
     })
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
 
